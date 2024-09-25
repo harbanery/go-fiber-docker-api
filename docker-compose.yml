@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: api-test
+      POSTGRES_USER: raihan
+      POSTGRES_PASSWORD: raihan123
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "6000:5432"
+
+  backend:
+    build:
+      context: ./
+    ports:
+      - "3000:3000"
+    environment:
+      URL: postgres://raihan:raihan123@db:5432/api-test
+    depends_on:
+      - db
+
+volumes:
+  postgres-data:
